@@ -24,7 +24,8 @@ jobs:
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        apt-get install sqlite3
+        
     - name: Run Tests (instead of using the test, I combined setting up and running test in to test.sh)
       run: |
         sh test.sh
