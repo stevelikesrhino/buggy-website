@@ -1,6 +1,7 @@
 Steve Zhang
 yz3980
 github: stevelikesrhinos
+email: yz3980@columbia.edu
 
 1. SQL Injection 
 	Since the sql query uses raw input from user's card's data, user can inject commands to UNION admin's hashed password with card_id, and display it on use.html. The easiest way to do this is to change the "signature" section in your giftcard file. I couldn't be able to fix, eternally, the vulnerability because I am not sure how the signature query should work (compounded by data in Card object is in binary and the query uses string); however, I fixed the view that it will not put any query onto the website into the context, therefore keeping the query inside the backend.
