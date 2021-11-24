@@ -25,7 +25,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install django
-        apt-get install sqlite3
+        sudo apt-get install sqlite3
         
     - name: Run Tests (instead of using the test, I combined setting up and running test in to test.sh)
       run: |
