@@ -7,6 +7,8 @@ from django.views.decorators.csrf import csrf_protect as csrf_protect
 from django.contrib.auth import login, authenticate, logout
 from django.core.exceptions import ObjectDoesNotExist
 
+from django.views.decorators.csrf import csrf_protect
+
 SALT_LEN = 16
 
 
@@ -71,7 +73,7 @@ def buy_card_view(request, prod_num=0):
         director = request.GET.get('director', None)
         if director is not None:
             # KG: Wait, what is this used for? Need to check the template.
-            context['director'] = director
+            context['director'] = None 
         if prod_num != 0:
             try:
                 prod = Product.objects.get(product_id=prod_num)
@@ -114,6 +116,7 @@ def buy_card_view(request, prod_num=0):
         return redirect("/buy/1")
 
 
+@csrf_protect
 # KG: What stops an attacker from making me buy a card for him?
 def gift_card_view(request, prod_num=0):
     context = {"prod_num": prod_num}
@@ -121,7 +124,7 @@ def gift_card_view(request, prod_num=0):
         context['user'] = None
         director = request.GET.get('director', None)
         if director is not None:
-            context['director'] = director
+            context['director'] = None
         if prod_num != 0:
             try:
                 prod = Product.objects.get(product_id=prod_num)
@@ -195,6 +198,7 @@ def use_card_view(request):
         signature = json.loads(card_data)['records'][0]['signature']
         # signatures should be pretty unique, right?
         card_query = Card.objects.raw('select id from LegacySite_card where data = \'%s\'' % signature)
+        #card_query = Card.objects.get(data=signature)
         user_cards = Card.objects.raw(
             'select id, count(*) as count from LegacySite_card where LegacySite_card.user_id = %s' % str(
                 request.user.id))
@@ -213,7 +217,7 @@ def use_card_view(request):
 
             card = Card(data=card_data, fp=card_file_path, user=request.user, used=True)
         else:
-            context['card_found'] = card_query_string
+            #context['card_found'] = card_query_string
             try:
                 card = Card.objects.get(data=bytes(card_data, 'utf-8'))
                 card.used = True

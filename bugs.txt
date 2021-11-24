@@ -1,4 +1,16 @@
-1. Random SEED does not get refreshed everytime generate_salt is called, resulting in everytime, the random number is the same.
-2. Since the sql query uses raw input from user's card's data, user can inject commands to UNION admin's hashed password with card_id, and display it on use.html.
-3. requests.get("director",None) is very risky because if I use URL <original URL>?director=<my script> would breach into the website and run my script.
-4. For CSRF attack, since the server does not check CSRF token, I am able to use another HTML and post a form that contains amount and username and send cards into my account.
+Steve Zhang
+yz3980
+github: stevelikesrhinos
+
+1. SQL Injection 
+	Since the sql query uses raw input from user's card's data, user can inject commands to UNION admin's hashed password with card_id, and display it on use.html. The easiest way to do this is to change the "signature" section in your giftcard file. I couldn't be able to fix, eternally, the vulnerability because I am not sure how the signature query should work (compounded by data in Card object is in binary and the query uses string); however, I fixed the view that it will not put any query onto the website into the context, therefore keeping the query inside the backend.
+
+2. XSS
+	requests.get("director",None) is very risky because if I use URL <original URL>?director=<my script> would breach into the website and run my script. Director is part of the template that does not really serve a purpose, so I set it to none. I make the test to automatically set director and proved that it won't make into the context. 
+
+3. CSRF
+	For CSRF attack, since the server does not check CSRF token, I am able to use another HTML and post a form that contains amount and username and send cards into my account. The original website has no means of checking where the post is coming from. In Django, there is an option to turn on CSRF by simply importing the class and add a @ statement, and I'm able to fix it using that alone, and it will return 404.
+
+4. Random SEED does not get refreshed everytime generate_salt is called, resulting in everytime, the random number is the same.
+
+5. It encodes everything using "utf8".
