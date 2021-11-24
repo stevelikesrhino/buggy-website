@@ -1,0 +1,4 @@
+1. Random SEED does not get refreshed everytime generate_salt is called, resulting in everytime, the random number is the same.
+2. Since the sql query uses raw input from user's card's data, user can inject commands to UNION admin's hashed password with card_id, and display it on use.html.
+3. requests.get("director",None) is very risky because if I use URL <original URL>?director=<my script> would breach into the website and run my script.
+4. For CSRF attack, since the server does not check CSRF token, I am able to use another HTML and post a form that contains amount and username and send cards into my account.
