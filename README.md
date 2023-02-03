@@ -1,5 +1,9 @@
 # Homework 3: Buggiest Web Application
 
+A very open-ended school homework to correct some of the security
+concerns in this buggy website, taking all what I learned into actual
+combat.
+
 ## Introduction
 
 Unfortunately it seems your company never learns. Yet again the company
